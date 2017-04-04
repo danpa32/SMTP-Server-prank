@@ -32,7 +32,6 @@ public class SmtpClient implements ISmtpClient {
         writer.flush();
     }
 
-    @Override
     public void SendMesssage(Message m) throws IOException {
         LOG.info("Sending message via SMTP");
         Socket socket = new Socket(smtpServerAddress, smtpServerPort);
