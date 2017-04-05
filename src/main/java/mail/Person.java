@@ -9,18 +9,18 @@ import java.util.regex.Pattern;
 public class Person {
     private String firstName;
     private String lastName;
-    private final String address;
+    private final String mailAddress;
 
-    public Person(String firstName, String lastName, String address) {
+    public Person(String firstName, String lastName, String mailAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.mailAddress = mailAddress;
     }
 
-    public Person(String address) {
-        this.address = address;
+    public Person(String mailAddress) {
+        this.mailAddress = mailAddress;
         Pattern pattern = Pattern.compile("(.*)\\.(.*)@");
-        Matcher matcher = pattern.matcher(address);
+        Matcher matcher = pattern.matcher(mailAddress);
         boolean found = matcher.find();
         if (found) {
             this.firstName = matcher.group(1);
@@ -39,6 +39,6 @@ public class Person {
     }
 
     public String getAddress() {
-        return address;
+        return mailAddress;
     }
 }

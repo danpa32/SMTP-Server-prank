@@ -57,23 +57,23 @@ public class SmtpClient implements ISmtpClient {
         line = reader.readLine();
         LOG.info(line);
 
-        for (String to : m.getTo()) {
-            getReceiver(to);
+        //for (String to : m.getTo()) {
+            getReceiver(m.getTo());
             line = reader.readLine();
             LOG.info(line);
-        }
+        //}
 
-        for (String to : m.getCc()) {
+        /*for (String to : m.getCc()) {
             getReceiver(to);
             line = reader.readLine();
             LOG.info(line);
-        }
+        }*/
 
-        for (String to : m.getBcc()) {
+        /*for (String to : m.getBcc()) {
             getReceiver(to);
             line = reader.readLine();
             LOG.info(line);
-        }
+        }*/
 
         writer.write("DATA");
         writer.write("\r\n");
@@ -83,19 +83,13 @@ public class SmtpClient implements ISmtpClient {
         writer.write("Content-Type: text/plain; charset=\"utf-8\"\r\n");
         writer.write("From: " + m.getFrom() + "\r\n");
 
-        writer.write("To: " + m.getTo()[0]);
-        for (int i = 1; i < m.getTo().length; i++) {
-            writer.write(", " + m.getTo()[i]);
-        }
+        writer.write("To: " + m.getTo());
+
         writer.write("\r\n");
 
-        writer.write("Cc: " + m.getCc()[0]);
-        for (int i = 1; i < m.getCc().length; i++) {
-            writer.write(", " + m.getCc()[i]);
-        }
+        writer.write("Subject: " + m.getSubject());
         writer.write("\r\n");
-
-        writer.flush();
+        writer.write("\r\n");
         LOG.info(m.getBody());
         writer.write(m.getBody());
         writer.write("\r\n");
