@@ -47,6 +47,8 @@ public class PrankGenerator {
             ++numberOfPeopleByGroup;
         }
 
+        System.out.println(numberOfPeopleByGroup);
+
         ArrayList<Group> groups = new ArrayList<Group>();
         while(!victims.isEmpty()) {
             Group groupVictims = new Group();

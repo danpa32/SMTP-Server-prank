@@ -17,7 +17,7 @@ public class SMTPPrankClient implements ISMTPPrankClient {
     private BufferedReader reader;
 
     public SMTPPrankClient() throws IOException {
-        socket = new Socket(ADDRESS, SMTPPrankProtocol.PORT);
+        socket = new Socket(ADDRESS, PORT);
         writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"), true);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 
