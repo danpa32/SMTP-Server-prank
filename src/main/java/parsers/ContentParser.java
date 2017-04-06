@@ -1,13 +1,10 @@
 package parsers;
 
-import mail.Message;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
-import java.io.*;
-import java.util.ArrayList;
-
-/**
- * Created by Daniel on 05.04.2017.
- */
 public class ContentParser {
     private String[] contents = new String[5];
     private String[] subjects = new String[5];

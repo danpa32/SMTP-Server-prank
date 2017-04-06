@@ -6,25 +6,21 @@ import mail.Person;
 import parsers.ConfigParser;
 import parsers.ContentParser;
 import parsers.VictimParser;
-import smtp.SmtpClient;
+import smtp.SMTPPrankClient;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by Valentin Finini & Daniel Palumbo on 04.04.2017.
- */
 public class PrankGenerator {
     public static void main(String... args) throws IOException {
 
         //Reading and testing configuration file
         ConfigParser configParser;
         try {
-            configParser = new ConfigParser(new File("src/main/java/config/config.smtp.txt"));
+            configParser = new ConfigParser(new File("config/config.smtp.txt"));
         } catch (IOException e) {
             System.out.println("Invalid configuration file !");
             return;
@@ -33,7 +29,7 @@ public class PrankGenerator {
         //Reading the list of victims
         VictimParser vp;
         try {
-            vp = new VictimParser(new File("src/main/java/config/victims.txt"));
+            vp = new VictimParser(new File("config/victims.txt"));
         } catch (FileNotFoundException e) {
             System.out.println("Invalid victims file !");
             return;
@@ -68,12 +64,12 @@ public class PrankGenerator {
         ContentParser cp = null;
 
         try {
-            cp = new ContentParser(new File("src/main/java/config/messages.utf8.txt"));
+            cp = new ContentParser(new File("config/messages.utf8.txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ArrayList<Message> emailsToSend = new ArrayList<Message>();
+        ArrayList<Message> emailsToSend = new ArrayList<>();
 
         int count;
         for(Group g : groups) {
@@ -87,12 +83,13 @@ public class PrankGenerator {
             }
         }
 
-        SmtpClient emailSender;
-        emailSender = new SmtpClient(configParser.getServer(), configParser.getPort());
+        SMTPPrankClient smtpPrankClient = new SMTPPrankClient();
 
         //Sending emails
         for (Message m : emailsToSend) {
-            emailSender.SendMesssage(m);
+            smtpPrankClient.sendMesssage(m);
         }
+
+        smtpPrankClient.close();
     }
 }
