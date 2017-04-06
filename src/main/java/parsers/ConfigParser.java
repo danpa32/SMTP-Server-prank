@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ConfigParser {
+    private String address;
+    private int port;
     private int numberOfGroups;
     private String witness;
 
@@ -22,12 +24,28 @@ public class ConfigParser {
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         line = br.readLine();
+        address = mySubString(line);
+        System.out.println("Server address: " + address);
+
+        line = br.readLine();
+        port = myParseInt(line);
+        System.out.println("Server port: " + port);
+
+        line = br.readLine();
         numberOfGroups = myParseInt(line);
         System.out.println("Number of groups: " + numberOfGroups);
 
         line = br.readLine();
         witness = mySubString(line);
         System.out.println("Witness: " + witness);
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getPort() {
+        return port;
     }
 
     public int getNumberOfGroups() {

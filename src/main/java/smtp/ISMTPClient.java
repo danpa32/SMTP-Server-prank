@@ -4,6 +4,6 @@ import mail.Message;
 
 import java.io.IOException;
 
-public interface ISMTPPrankClient {
+public interface ISMTPClient {
     void sendMesssage(Message m) throws IOException;
 }

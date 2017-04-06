@@ -4,14 +4,15 @@ import mail.Group;
 import mail.Message;
 import mail.Person;
 import parsers.ConfigParser;
-import parsers.ContentParser;
+import parsers.MessageParser;
 import parsers.VictimParser;
-import smtp.SMTPPrankClient;
+import smtp.SMTPClient;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PrankGenerator {
@@ -37,61 +38,58 @@ public class PrankGenerator {
 
         //Reading the number of groups
         int numberOfGroups = configParser.getNumberOfGroups();
-        System.out.println("Number of groups: " + numberOfGroups);
 
         //Creating groups
         ArrayList<Person> victims = vp.getVictims();
 
         int numberOfPeopleByGroup = victims.size() / numberOfGroups;
-        if(numberOfPeopleByGroup * numberOfGroups != victims.size()) {
+        if(numberOfPeopleByGroup * numberOfGroups != victims.size())
             ++numberOfPeopleByGroup;
-        }
 
-        System.out.println(numberOfPeopleByGroup);
-
-        ArrayList<Group> groups = new ArrayList<Group>();
+        ArrayList<Group> groups = new ArrayList<>();
         while(!victims.isEmpty()) {
             Group groupVictims = new Group();
-            for(int i = 0; i < numberOfPeopleByGroup; i++) {
-                if (!victims.isEmpty()) {
+
+            for(int i = 0; i < numberOfPeopleByGroup; i++)
+                if (!victims.isEmpty())
                     groupVictims.addMember(victims.remove(0));
-                }
-            }
+
             groups.add(groupVictims);
         }
 
-
-
         //Reading and testing contents
-        ContentParser cp = null;
+        MessageParser messageParser = null;
 
         try {
-            cp = new ContentParser(new File("config/messages.utf8.txt"));
+            messageParser = new MessageParser(new File("config/messages.utf8.txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ArrayList<Message> emailsToSend = new ArrayList<>();
+        SMTPClient smtpClient = new SMTPClient(configParser.getAddress(), configParser.getPort());
+        Random random = new Random();
 
-        int count;
         for(Group g : groups) {
-            Random r = new Random();
-            count = r.nextInt(cp.getContent().length);
+            List<Message> messages = messageParser.getMessages();
+
+            int count = random.nextInt(messages.size());
             Person first = g.getMembers().get(0);
-            for (Person p : g.getMembers()) {
-                if (p != g.getMembers().get(0)) {
-                    emailsToSend.add(new Message(first.getAddress(), p.getAddress(), cp.getSubjects()[count], cp.getContent()[count]));
-                }
+
+            //Get the message and update it's sender
+            Message message = messages.get(count);
+            message.setFrom(first.getAddress());
+
+            for(int i = 1; i < g.getMembers().size(); i++) {
+                Person member = g.getMembers().get(i);
+
+                //Update the recipient
+                message.setTo(member.getAddress());
+
+                //Send the message
+                smtpClient.sendMesssage(message);
             }
         }
 
-        SMTPPrankClient smtpPrankClient = new SMTPPrankClient();
-
-        //Sending emails
-        for (Message m : emailsToSend) {
-            smtpPrankClient.sendMesssage(m);
-        }
-
-        smtpPrankClient.close();
+        smtpClient.close();
     }
 }

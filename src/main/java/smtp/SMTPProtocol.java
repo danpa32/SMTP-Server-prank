@@ -1,8 +1,7 @@
 package smtp;
 
-public abstract class SMTPPrankProtocol {
-    public static final String ADDRESS = "localhost";
-    public static final int PORT = 2525;
+public abstract class SMTPProtocol {
+    public static final String PRANK_HOSTNAME = "prank.gotyougood.haha.com";
 
     public static final String EHLO_RESPONSE_PREFIX = "250";
     public static final String EHLO_RESPONSE_TOKEN = EHLO_RESPONSE_PREFIX + "-";
@@ -12,13 +11,13 @@ public abstract class SMTPPrankProtocol {
     public static final String LINEEND = "\r\n";
 
     public static final String EHLO = "EHLO ";
-    public static final String FROM = "MAIL FROM: ";
-    public static final String TO = "RCPT TO: ";
+    public static final String FROM = "MAIL FROM:";
+    public static final String TO = "RCPT TO:";
     public static final String DATA = "DATA" + LINEEND;
 
-    public static final String DATA_FROM = "From: ";
-    public static final String DATA_TO = "To: ";
-    public static final String DATA_SUBJECT = "Subject: ";
+    public static final String DATA_FROM = "From:";
+    public static final String DATA_TO = "To:";
+    public static final String DATA_SUBJECT = "Subject:";
 
     public static final String END_TRANSACTION = "." + LINEEND;
 
