@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Valentin Finini & Daniel Palumbo on 04.04.2017.
@@ -74,15 +75,16 @@ public class PrankGenerator {
 
         ArrayList<Message> emailsToSend = new ArrayList<Message>();
 
-        int count = 0;
+        int count;
         for(Group g : groups) {
+            Random r = new Random();
+            count = r.nextInt(cp.getContent().length);
             Person first = g.getMembers().get(0);
             for (Person p : g.getMembers()) {
                 if (p != g.getMembers().get(0)) {
                     emailsToSend.add(new Message(first.getAddress(), p.getAddress(), cp.getSubjects()[count], cp.getContent()[count]));
                 }
             }
-            ++count;
         }
 
         SmtpClient emailSender;
