@@ -13,41 +13,50 @@ The user of the application can defined :
 
 * Install Java (OpenJDK or Oracle) and Apache Maven.
 * Clone the repository and head to the config directory
-    * **config.smtp.txt** is the file where you can define the smtp server address, port and witness.
-    * **messages.utf8.txt** is the file that contains the Subjects and contents the mails you want to send.
-    Every entry is delimited by the "===" token.
-    * **victims.txt** is the file where you write the list of all emails addresses that you wish to use in your prank.
-* Once you have filled all the previous files, open a terminal and head to the project directory. Here, you run the following command:
+    * **config.smtp.txt** is the file where you can define the number of groups, the smtp server address and port.
+    * **messages.utf8.txt** is the file that contains the Subjects and contents of the mails you want to send.
+    The format is as follows:
+    ```
+    Subject: [your subject here]
+    
+    [your message here]
+    
+    ===
+    ```
+    * **victims.txt** is the file where you write the list of all email addresses that you wish to use in your prank.
+* Once you have edited or completed all the previous files, open a terminal and head to the project directory.
+* Compile the project with the following command:
 ```
-$ java -jar SMTP-prank.jar
+mvn clean package
+```
+* Run it with
+```
+$ java -jar target/SMTP_server_prank-1.0-SNAPSHOT.jar
 ```
 
-Youn can also set up a test environement by using SMTP server on your own computer:
+Youn can also set up a test environement by using a mock SMTP server on your own computer:
 
-* Download MockMock: https://github.com/tweakers-dev/MockMock
-* Open a teminal in the folder that contains the **jar** file and enter the following line:
+* MockMock is a mock SMTP server: https://github.com/tweakers-dev/MockMock
+* Open a teminal in the folder that contains the **jar** file and run:
 ```
-$ java -jar MockMock.jar -h xxxx -p yyyy
+$ java -jar MockMock.jar -p xxxx -ĥ yyyy
 ```
 
 Where:
 
-* ```-h xxxx``` stands for the local port for the SMTP server, default is 25.
-* ```-p yyyy``` stands for the port used by the web interface, default is 8282.
+* ```-p xxxx``` stands for the local port for the SMTP server, default is 25.
+* ```-h yyyy``` stands for the port used by the web interface, default is 8282.
+
+* Connect to the http interface by browsing to 
+```
+127.0.0.1:yyyy
+```
 
 ## Implementation
 
 The project is divided in 4 packages :
 
-* **mail** that contains the $JAVA$ files relate to a mail, a group and a person.
+* **mail** that contains the $JAVA$ files related to a mail, a group or a person.
 * **parsers** that contains the $JAVA$ files that parse the files in the **config** directory.
 * **prank** that contains the prank generator file (main program).
-* **smtp** that contains the files that takes care of the communication with the server (sending a mail).
-
-## Class diagram
-
-* **mail**
-* **parsers**
-* **prank**
-* **smtp**
-* Overall
+* **smtp** that contains the files that take care of the communication with the server (sending a mail).
