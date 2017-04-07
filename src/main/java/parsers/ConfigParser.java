@@ -34,10 +34,6 @@ public class ConfigParser {
         line = br.readLine();
         numberOfGroups = myParseInt(line);
         System.out.println("Number of groups: " + numberOfGroups);
-
-        line = br.readLine();
-        witness = mySubString(line);
-        System.out.println("Witness: " + witness);
     }
 
     public String getAddress() {
@@ -50,9 +46,5 @@ public class ConfigParser {
 
     public int getNumberOfGroups() {
         return numberOfGroups;
-    }
-
-    public String getWitness() {
-        return witness;
     }
 }

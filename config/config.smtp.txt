@@ -1,4 +1,3 @@
 serverAddress=localhost
 serverPort=2525
 numberOfGroups=3
-witnessToCC=daniel.palumbo@heig-vd.ch
