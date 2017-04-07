@@ -2,10 +2,10 @@
 
 ## Description
 
-**Prank SMTP client** is a program that allows you to send emails to a list of addresses that you provide. The list of mail addresses are split in group and the addresses of each group is picked as the sender, the rest are the receivers.
-The user of the application can defined :
+**Prank SMTP client** is a program that allows you to send emails to a list of addresses that you provide. The list of mail addresses are split in groups and the first address of each group is picked as the sender, the rest are the receivers.
+The user of the application can define :
 
-* the number of group
+* the number of groups
 * the smpt server used
 * the email contents
 
@@ -60,3 +60,5 @@ The project is divided in 4 packages :
 * **parsers** that contains the $JAVA$ files that parse the files in the **config** directory.
 * **prank** that contains the prank generator file (main program).
 * **smtp** that contains the files that take care of the communication with the server (sending a mail).
+
+Be aware that groups are created in a deterministic way (always the same split starting from the first address in the config file) but emails are selected randomly for each group (to spice things up).
